@@ -26,18 +26,18 @@ class EscenaMenu(pilasengine.escenas.Escena):
     def _crear_el_titulo_del_juego(self):
         titulo = self.pilas.actores.Actor()
         titulo.imagen = "imagenes/Lost.png"
-        titulo.escala = 0.1
-        titulo.y = 500
-        titulo.x = -100
+        titulo.escala = 0.5
+        titulo.y = 150
+        titulo.x = 0
         titulo.rotacion = 30
-        titulo.y = [1], 1
         titulo.rotacion = [0], 1.2
 
     def _crear_indicador_creditos(self):
         actor = self.pilas.actores.Actor()
-        actor.imagen = "imagenes/creditos.png"
-        actor.x = 400
+        actor.imagen = "imagenes/credits.png"
+        actor.x = 300
         actor.y = -200
+        actor.escala = 0.5
         actor.x = [400, 400, 270], 0.5
 
 ## Vinculamos todas las escenas.

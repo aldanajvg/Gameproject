@@ -7,6 +7,7 @@ fondo = pilas.fondos.DesplazamientoHorizontal()
 fondo.agregar("ayuda.jpg", velocidad=0.2)
 fondo.agregar("SwampTree.png", y=300, velocidad=0.5)
 fondo.agregar("tallgrass.png", y=100, velocidad=0.9)
+fondo.agregar("pasto.png", y=200, velocidad=2)
 fondo.agregar("grass.png", y=200, velocidad=2)
 
 p = pilas.actores.Shaolin(y=-200, x=0)

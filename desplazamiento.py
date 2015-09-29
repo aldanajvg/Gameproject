@@ -9,7 +9,7 @@ fondo.agregar("SwampTree.png", y=300, velocidad=0.5)
 fondo.agregar("tallgrass.png", y=100, velocidad=0.9)
 fondo.agregar("grass.png", y=200, velocidad=2)
 
-p = pilas.actores.Shaolin(y=-210, x= -10000)
+p = pilas.actores.Shaolin(y=-200, x=0)
 
 def cambiar_posicion_camara():
     pilas.camara.x += (p.x - pilas.camara.x) /5

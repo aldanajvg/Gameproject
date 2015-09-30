@@ -2,7 +2,8 @@ import pilasengine
 from pilasengine.actores.actor import Actor
 from pilasengine.comportamientos.comportamiento import Comportamiento
 pilas = pilasengine.iniciar()
-luchador = Shaolin(pilas)
+luchador=Shaolin(pilas)
+
 
 class Shaolin(Actor):
     """Representa un luchador que se puede controlar con el teclado,
@@ -14,8 +15,9 @@ class Shaolin(Actor):
         self.hacer_inmediatamente(Parado)
         self.sombra = self.pilas.actores.Sombra()
         self.altura_del_salto = 0
-
-    def actualizar(self):
+                
+ 
+    def actualizar (self):
         self.sombra.x = self.x
         self.sombra.z = self.z + 1
         self.sombra.rotacion = self.rotacion
@@ -29,7 +31,6 @@ class Parado(Comportamiento):
 
     def iniciar(self, receptor):
         """Inicializa el comportamiento.
-
         :param receptor: La referencia al actor.
         """
         self.receptor = receptor
@@ -48,8 +49,10 @@ class Parado(Comportamiento):
         # Si pulsa hacia arriba salta.
         if self.control.arriba:
             self.receptor.hacer_inmediatamente(Saltar)
-
-
+    
+        elif self.control.abajo:
+            self.receptor.hacer_inmediatamente(Agacharse)
+            
 class Caminar(Comportamiento):
 
     def iniciar(self, receptor):
@@ -122,13 +125,50 @@ class Atacar (Comportamiento):
     def actualizar(self):
         self.receptor.imagen.atacar
 
+class Golpear(Comportamiento):
+
+    def iniciar(self, shaolin):
+        Comportamiento.iniciar(self, shaolin)
+
+        self.shaolin.cambiar_animacion('ataca1')
+        self.shaolin.reproducir_sonido('golpe')
+        self.golpear(dy=90)
+        
+    def actualizar(self):
+        if self.shaolin.avanzar_animacion(0.4):
+            self.shaolin.hacer(Parado())
+            self.eliminar_golpe()
+            Golpear.ha_golpeado = True
+        else:
+            if self.golpe:
+                enemigo = self.golpe.verificar_colisiones()
+                if enemigo:
+                    print "Ha golpeado al enemigo!!!"
+                    self.eliminar_golpe()
+
+class Agacharse(Comportamiento):
+    
+    def iniciar(self, receptor):
+        self.receptor = receptor
+        self.control = receptor.pilas.control
+
+        self.receptor.imagen = self.pilas.imagenes.cargar_grilla("shaolin/en_el_suelo.png", 1	, 1)
+        
+    def actualizar(self):
+    	self.receptor.imagen.avanzar(1)
+    	if self.control.abajo == False:
+    		self.receptor.hacer_inmediatamente(Parado)
+    	elif self.control.derecha or self.control.izquierda:
+    		self.receptor.hacer_inmediatamente(Caminar)
+    	elif self.control.arriba:
+    		self.receptor.hacer_inmediatamente(Saltar)                 
+
 fondo = pilas.fondos.DesplazamientoHorizontal()
 
 fondo.agregar("ayuda.jpg", velocidad=0.2)
 fondo.agregar("SwampTree.png", y=300, velocidad=0.5)
 fondo.agregar("tallgrass.png", y=100, velocidad=0.9)
 fondo.agregar("grass.png", y=200, velocidad=2)
-
 
 
 
